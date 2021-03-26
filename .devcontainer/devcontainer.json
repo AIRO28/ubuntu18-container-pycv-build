@@ -1,0 +1,49 @@
+{
+	"name": "Ubuntu18.04-pycv-build",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "..",
+		"args": {"-t": "my_ubuntu18_pycv_b:latest"}
+	},
+
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"python.pythonPath": "/usr/bin/python3",
+		"python.analysis.extraPaths": ["/usr/local/lib/python3.6/",
+			"/usr/local/lib/python3.6/dist-packages/",
+			"/usr/local/lib/python3.6/site-packages/"
+		],
+		"python.autoComplete.extraPaths": ["/usr/local/lib/python3.6/",
+			"/usr/local/lib/python3.6/dist-packages/",
+			"/usr/local/lib/python3.6/dist-packages/"
+		]
+	},
+
+	"extensions": ["ms-python.python",
+		"ms-python.vscode-pylance"],
+
+	"workspaceFolder": "/home",
+	"workspaceMount": "type=bind,source=${localWorkspaceFolder},target=/home/project",
+	
+	"mounts": [
+		// Mount the socket for the "X window system".
+		"source=/tmp/.X11-unix/,target=/tmp/.X11-unix/,type=bind,consistency=chased"
+	],
+	
+	//Register environment variables in the container side
+	"containerEnv": {
+		// In the Windows environment, enter the IP address of the host machine.
+		// For Ubuntu, enter "${localEnv:DISPLAY}".
+		"DISPLAY": "192.168.100.103:0.0"
+		// "DISPLAY": "${localEnv:DISPLAY}"
+	},
+	
+	"runArgs": [
+		"-it",
+		"--rm",
+		"--privileged",
+		"--name=ubuntu18_pycv_b"
+	]
+
+	// "postCreateCommand": "sudo pip install -r requirements.txt,
+}
