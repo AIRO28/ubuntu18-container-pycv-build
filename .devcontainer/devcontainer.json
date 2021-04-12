@@ -25,16 +25,11 @@
 	"workspaceFolder": "/home",
 	"workspaceMount": "type=bind,source=${localWorkspaceFolder},target=/home/project",
 	
-	"mounts": [
-		// Mount the socket for the "X window system".
-		"source=/tmp/.X11-unix/,target=/tmp/.X11-unix/,type=bind,consistency=chased"
-	],
-	
 	//Register environment variables in the container side
 	"containerEnv": {
 		// In the Windows environment, enter the IP address of the host machine.
 		// For Ubuntu, enter "${localEnv:DISPLAY}".
-		"DISPLAY": "192.168.100.103:0.0"
+		"DISPLAY": "192.168.x.x:0.0"
 		// "DISPLAY": "${localEnv:DISPLAY}"
 	},
 	
@@ -42,8 +37,9 @@
 		"-it",
 		"--rm",
 		"--privileged",
+		"-v=/tmp/.X11-unix/:/tmp/.X11-unix/",
 		"--name=ubuntu18_pycv_b"
 	]
 
-	// "postCreateCommand": "sudo pip install -r requirements.txt,
+	// "postCreateCommand": "pip3 install -r /home/project/.devcontainer/requirements.txt,
 }
